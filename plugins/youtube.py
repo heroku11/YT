@@ -16,13 +16,13 @@ async def ytdl(_, message):
     try:
         if userLastDownloadTime > datetime.now():
             wait_time = round((userLastDownloadTime - datetime.now()).total_seconds() / 60, 2)
-            await message.reply_text(f"`Wait {wait_time} Minutes before next Request`")
+            await message.reply_text(f"`Tunggu {wait_time} Menit sebelum permintaan selanjutnya`")
             return
     except:
         pass
 
     url = message.text.strip()
-    await message.reply_chat_action("typing")
+    await message.reply_chat_action("Mengetik")
     try:
         title, thumbnail_url, formats = extractYt(url)
 
@@ -31,10 +31,10 @@ async def ytdl(_, message):
                                      timedelta(minutes=youtube_next_fetch)
 
     except Exception:
-        await message.reply_text("`Failed To Fetch Youtube Data... 😔 \nPossible Youtube Blocked server ip \n#error`")
+        await message.reply_text("`Gagal untuk mendeteksi data youtube...  \nYoutube memblokir alamat ip video \n#error`")
         return
     buttons = InlineKeyboardMarkup(list(create_buttons(formats)))
-    sentm = await message.reply_text("Processing Youtube Url 🔎 🔎 🔎")
+    sentm = await message.reply_text("`Melakukan Proses url Youtube...`")
     try:
         # Todo add webp image support in thumbnail by default not supported by pyrogram
         # https://www.youtube.com/watch?v=lTTajzrSkCw
@@ -50,7 +50,7 @@ async def ytdl(_, message):
     except Exception as e:
         print(e)
         try:
-            thumbnail_url = "https://telegra.ph/file/ce37f8203e1903feed544.png"
+            thumbnail_url = "https://telegra.ph/file/eb2e063501382d4b96fbf.jpg"
             await message.reply_photo(thumbnail_url, caption=title, reply_markup=buttons)
         except Exception as e:
             await sentm.edit(
